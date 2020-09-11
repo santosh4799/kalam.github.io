@@ -1,0 +1,227 @@
+<?php
+	session_start();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>User Information</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style type="text/css">
+  	
+  </style>
+</head>
+<body>
+
+	<div class="container col-lg-6 m-auto">
+		
+		<div class="content">
+			<h3>Please Fill Your Basic Information</h3>
+			<div id="message" class="bg-success p-2 text-white">
+				
+			</div>
+			
+			  <form method="post" id="userform">
+			  	<div id="first">
+			  		<div id="address-info" style="background:blue; padding: 10px; margin-bottom: 10px;">
+			  			<h3 style="color: #fff; text-align: center;">Registration</h3>
+			  		</div>
+			  		<input type="text" name="a1" id="fname" placeholder="First name" title="firstname">
+			  		<p id="fname-error"></p>
+			  		<input type="text" name="a2" id="lname" placeholder="Last name" title="lastname">
+			  		<p id="lname-error"></p>
+			  		<input type="email" name="a3" id="email" placeholder="email address" title="email">
+			  		<p id="email-error"></p>
+			  		<input type="password" name="pass" id="pass" placeholder="password" title="password">
+			  		<p id="pass-error"></p>
+			  		<input type="text" name="a4" id="phone" placeholder="Mobile no." title="phone" maxlength="10">
+			  		<p id="phone-error"></p>
+			  		<select name="a5" id="gender" title="Gender">
+			  			<option>Male</option>
+			  			<option>Female</option>
+			  		</select>
+			  		<p id="gender-error"></p>
+			  		<a href="#" class="btn btn-danger p-2 rounded" id="next">Next</a>
+			  	</div>
+
+			  	<div id="second">
+			  		<div id="address-info" style="background: #FEAF44; padding: 10px;">
+			  			<h3 style="color: #fff; text-align: center;">Address Details</h3>
+			  		</div>
+			  		<label>Full Address</label>
+			  		<textarea name="a6" id="addr"></textarea>
+			  		<p id="addr-error"></p>
+			  		<div class="row">
+			  			<div class="col-md-6 col-lg-6">
+			  				<input type="text" name="a7" id="state" placeholder="State">
+			  				<p id="state-error"></p>
+			  			</div>
+			  			<div class="col-md-6 col-lg-6">
+			  				<input type="text" name="a8" id="city" placeholder="City">
+			  				<p id="city-error"></p>
+			  			</div>
+			  			<div class="col-md-6 col-lg-6" style="margin-top: 10px;">
+			  				<input type="text" name="a9" id="pincode" placeholder="Postal code">
+			  				<p id="pincode-error"></p>
+			  			</div>
+			  			<div class="col-lg-12 col-md-12">
+			  				<a href="#" id="previous" class="btn btn-danger">Previous</a>
+			  				<input type="submit" name="submit" id="submit" class="btn btn-success">
+			  			</div>
+			  		</div>
+			  	</div>
+			  </form>
+			<p>Have already an account,<a href="login.html">login here</a></p>
+			
+		</div>
+	</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+			
+			$('#next').click(function(e){
+				e.preventDefault();
+				$('#fname-error').html('');
+				$('#lname-error').html('');
+				$('#email-error').html('');
+				$('#phone-error').html('');
+				$('#pass-error').html('');
+				if ($('#fname').val()=='') {
+					$('#fname-error').html('*first name is required...!!');
+					return false;
+				}
+				else if ($('#fname').val().length < 3) {
+					$('#fname-error').html('*first name must be more than 3 character..!!');
+					return false;
+				}
+				else if(!isNaN($('#fname').val())){
+					$('#fname-error').html('*Numbers are not allowed..!!');
+					return false;
+				}
+
+				
+				else if ($('#lname').val()=='') {
+					$('#lname-error').html('*Last name is required...!!');
+					return false;
+				}
+				else if ($('#lname').val().length < 3) {
+					$('#lname-error').html('*Last name must be more than 3 character..!!');
+					return false;
+				}
+				else if(!isNaN($('#lname').val())){
+					$('#lname-error').html('*Numbers are not allowed..!!');
+					return false;
+				}
+
+
+				else if ($('#email').val()=='') {
+					$('#email-error').html('*E-mail is required...!!');
+					return false;
+				}
+				else if(!validateEmail($('#email').val())){
+					$('#email-error').html('*E-mail is not valid...!!');
+					return false;
+				}
+				else if ($('#pass').val()=='') {
+					$('#pass-error').html('*password is required...!!');
+					return false;
+				}
+				else if ($('#pass').val().length < 6) {
+					$('#pass-error').html('*password must be more than 6 character..!!');
+					return false;
+				}
+
+				else if ($('#phone').val()=='') {
+					$('#phone-error').html('*Mobile no is required...!!');
+					return false;
+				}
+				else if(isNaN($('#phone').val())){
+					$('#phone-error').html('*Only Numbers are allowed..!!');
+					return false;
+				}
+				else if ($('#phone').val().length!=10) {
+					$('#phone-error').html('*Phone Number must be of 10 digit...!!');
+					return false;
+				}
+
+				else{
+					$('#first').hide();
+					$('#second').show();
+				}
+
+				function validateEmail($email){
+					var emailReg = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+					return emailReg.test($email);
+				}
+				
+			});
+
+			$('#previous').click(function(){
+				
+				$('#first').show();
+				$('#second').hide();
+			});
+
+
+			$('#submit').click(function(e){
+				e.preventDefault();
+				$('#addr-error').html('');
+				$('#state-error').html('');
+				$('#city-error').html('');
+				$('#pincode-error').html('');
+				if ($('#addr').val() =='') {
+					$('#addr-error').html('*Address is required...!!');
+					return false;
+				}
+
+				else if ($('#state').val()=='') {
+					$('#state-error').html('*State is required...!!');
+					return false;
+				}
+				else if(!isNaN($('#state').val())){
+					$('#state-error').html('*Numbers are not allowed..!!');
+					return false;
+				}
+				
+				else if ($('#city').val()=='') {
+					$('#city-error').html('*City is required...!!');
+					return false;
+				}
+				else if(!isNaN($('#city').val())){
+					$('#city-error').html('*Numbers are not allowed..!!');
+					return false;
+				}
+				else if ($('#pincode').val()=='') {
+					$('#pincode-error').html('*Postal code is required...!!');
+					return false;
+				}
+				else if(isNaN($('#pincode').val())){
+					$('#pincode-error').html('*character are not allowed..!!');
+					return false;
+				}
+				else{
+					$.ajax({
+						url:'index_action.php',
+						method:"post",
+						data: $('form').serialize(),
+						dataType: "text",
+						success: function(strMessage){
+							$('#message').show();
+							$('#message').text(strMessage);
+						}
+					});
+				}
+				
+			});
+		
+	});
+</script>
+</body>
+</html>
